@@ -5,15 +5,17 @@ import { Check, Close, Delete } from "@mui/icons-material";
 import { Input } from "../../../core";
 import { Box, Grid, IconButton } from "@mui/material";
 import { IExperienceDetails } from "../../../../types/userType";
-import { Dispatch, FC } from "react";
+import { Dispatch, FC, useEffect, useRef } from "react";
 import { generateUniqueRandomNumber } from "../../../../utils/func";
 
 interface IAddExperienceProps {
+  data?: IExperienceDetails;
   setExperienceData: Dispatch<React.SetStateAction<IExperienceDetails[]>>;
   handleToggleForm: () => void;
 }
 
 export const AddExperience: FC<IAddExperienceProps> = ({
+  data,
   handleToggleForm,
   setExperienceData,
 }) => {
@@ -28,17 +30,45 @@ export const AddExperience: FC<IAddExperienceProps> = ({
     onSubmit: (value: ExperienceDetailsForm) => handleSubmit(value),
   });
 
+  const formikRef = useRef(formik);
+
+  useEffect(() => {
+    if (data) {
+      formikRef.current.setValues(data);
+    }
+  }, [data]);
+
+  const handleEdit = (data: ExperienceDetailsForm, id: number) => {
+    setExperienceData((prev) => {
+      return prev.map((x) => {
+        if (x.id === id) {
+          return {
+            ...data,
+            id,
+          };
+        }
+        return x;
+      });
+    });
+
+    handleToggleForm();
+  };
+
   const handleSubmit = (value: ExperienceDetailsForm) => {
-    const id = generateUniqueRandomNumber();
-    setExperienceData((prev) =>
-      prev.length ? [...prev, { ...value, id }] : [{ ...value, id }]
-    );
+    if (data) {
+      handleEdit(value, data.id);
+    } else {
+      const id = generateUniqueRandomNumber();
+      setExperienceData((prev) =>
+        prev.length ? [...prev, { ...value, id }] : [{ ...value, id }]
+      );
+    }
     formik.resetForm();
   };
 
   return (
     <form onSubmit={formik.handleSubmit}>
-      <Grid container columnSpacing={4} alignItems="center">
+      <Grid container columnSpacing={4} alignItems="center" paddingBlock={2}>
         <Grid item xs={2.5}>
           <Input
             formik={formik}

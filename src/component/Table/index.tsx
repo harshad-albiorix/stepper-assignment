@@ -82,9 +82,9 @@ function EnhancedTableHead(props: EnhancedTableProps) {
           height: 53,
         }}
       >
-        {headCells.map((headCell) => (
+        {headCells.map((headCell, index) => (
           <TableCell
-            key={headCell.id as any}
+            key={index}
             align={headCell.numeric ? "right" : "left"}
             sortDirection={orderBy === headCell.id ? order : false}
           >
@@ -132,7 +132,7 @@ export function Table({ data, column }: ITableProps) {
 
   const headCells: readonly HeadCell[] = column?.map((item) => {
     return {
-      id: "name",
+      id: item.id,
       numeric: item.numeric,
       disablePadding: true,
       label: item.label,
@@ -223,7 +223,7 @@ export function Table({ data, column }: ITableProps) {
                   role="checkbox"
                   aria-checked={isItemSelected}
                   tabIndex={-1}
-                  key={row.id}
+                  key={index}
                   selected={isItemSelected}
                   sx={{ cursor: "pointer" }}
                 >

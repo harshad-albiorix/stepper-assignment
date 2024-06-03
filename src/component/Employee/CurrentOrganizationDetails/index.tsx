@@ -4,10 +4,10 @@ import { CurrentOrgDetailsForm } from "../../../constant/type";
 import { currentOrgDetailsSchema } from "../../../constant/schema";
 import { DateInputField, Input } from "../../core";
 import { StepperFooterButton } from "../StepperFooterButton";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { resetCurrentUser, setUserData } from "../../../redux/FormSlice";
 import { useLocation, useNavigate } from "react-router-dom";
-import { RootState } from "../../../redux/store";
+import store from "../../../redux/store";
 import { createUser, updateUser } from "../../../redux/MainSlice";
 import { generateUniqueRandomNumber } from "../../../utils/func";
 import { FC, useEffect, useRef } from "react";
@@ -20,7 +20,6 @@ interface ICurrentOrganizationDetailsProps {
 export const CurrentOrganizationDetails: FC<
   ICurrentOrganizationDetailsProps
 > = ({ data }) => {
-  const currentUser = useSelector((state: RootState) => state.form.currentUser);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -52,6 +51,7 @@ export const CurrentOrganizationDetails: FC<
   };
 
   const handleCreateUser = () => {
+    const currentUser = store.getState().form.currentUser;
     if (currentUser) {
       const id = generateUniqueRandomNumber();
       dispatch(createUser({ ...currentUser, id }));
@@ -60,13 +60,15 @@ export const CurrentOrganizationDetails: FC<
   };
 
   const handleUpdateUser = () => {
+    const currentUser = store.getState().form.currentUser;
+
     if (currentUser) {
       dispatch(updateUser({ ...currentUser }));
       handleBackToList();
     }
   };
 
-  const handleSubmit = (value: CurrentOrgDetailsForm) => {
+  const handleSubmit = async (value: CurrentOrgDetailsForm) => {
     if (value) {
       dispatch(setUserData({ currentOrgDetails: value }));
       if (currentUrl === "edit-employee") {

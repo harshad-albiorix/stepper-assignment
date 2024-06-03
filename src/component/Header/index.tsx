@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 
 export const Header = () => {
   return (
@@ -10,7 +10,7 @@ export const Header = () => {
       gap={4}
       p={2}
     >
-      <h3>Employee Management System</h3>
+      <Typography variant="h4">Employee Management System</Typography>
     </Box>
   );
 };

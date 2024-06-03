@@ -42,7 +42,7 @@ export const PersonalDetails: FC<IPersonalDetailsProps> = ({ data }) => {
       permanentAddress: "",
       presentAddress: "",
     },
-    // validationSchema: personalDetailsSchema,
+    validationSchema: personalDetailsSchema,
     onSubmit: (value: PersonalDetailsFrom) => handleSubmit(value),
   });
 

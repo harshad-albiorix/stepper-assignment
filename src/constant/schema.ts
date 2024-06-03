@@ -14,10 +14,17 @@ export const personalDetailsSchema = Yup.object().shape({
 export const bankDetailsSchema = Yup.object().shape({
   bankName: Yup.string().required("Bank name is required."),
   accountName: Yup.string().required("Account name is required."),
-  bankAccountNumber: Yup.string().required("Bank Account number is required."),
-  IFSCCode: Yup.string().required("IFSC code is required."),
+  bankAccountNumber: Yup.number().required("Bank Account number is required."),
+  IFSCCode: Yup.string()
+    .matches(
+      /^[A-Za-z]{4}0[A-Za-z0-9]{6}$/,
+      "Invalid IFSC code format (AAAA0000001)"
+    )
+    .required("IFSC code is required"),
   aadhaarCardNumber: Yup.string().required("Aadhaar card number is required."),
-  PANCard: Yup.string().required("PAN card is required."),
+  PANCard: Yup.string()
+    .matches(/[A-Z]{5}[0-9]{4}[A-Z]{1}/, "Invalid PAN format (AAAAA0000A)")
+    .required("PAN card is required"),
 });
 
 export const professionalDetailsSchema = Yup.object().shape({

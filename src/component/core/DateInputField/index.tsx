@@ -23,10 +23,14 @@ export const DateInputField: FC<DateInputFieldProps> = (props) => {
       sx={{ width: "100%" }}
       name={name ? name : ""}
       onChange={handleChange}
-      onError={errors[name!] && touched[name!] ? errors[name!] : ""}
-      helperText={errors[name!] && touched[name!] ? errors[name!] : ""}
       label={label}
-      slotProps={{ textField: { variant: "standard" } }}
+      slotProps={{
+        textField: {
+          variant: "standard",
+          error: errors[name!] && touched[name!] ? errors[name!] : "",
+          helperText: errors[name!] && touched[name!] ? errors[name!] : "",
+        },
+      }}
       {...rest}
     />
   );

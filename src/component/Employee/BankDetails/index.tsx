@@ -48,10 +48,10 @@ export const BankDetails: FC<IBankDetailsProps> = ({ data }) => {
 
   return (
     <Stack spacing={3}>
+      <Box display="flex" justifyContent="center">
+        <Typography fontSize={24}>Bank Details</Typography>
+      </Box>
       <form onSubmit={formik.handleSubmit}>
-        <Box display="flex" justifyContent="center">
-          <Typography fontSize={24}>Bank Details</Typography>
-        </Box>
         <Box>
           <Grid container spacing={4}>
             <Grid item xs={6}>

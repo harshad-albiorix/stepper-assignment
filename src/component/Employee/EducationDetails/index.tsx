@@ -1,4 +1,4 @@
-import { Box, Button, Divider, Stack, Typography } from "@mui/material";
+import { Box, Button, Divider, Paper, Stack, Typography } from "@mui/material";
 
 import { EducationHeaderRow } from "./EducationHeaderRow";
 import { AddEducation } from "./AddEducation";
@@ -59,37 +59,48 @@ export const EducationDetails: FC<IEducationDetailsProps> = ({ data }) => {
           Add Education
         </Button>
       </Box>
-      <EducationHeaderRow />
-      <Divider />
-      {!isOpenForm && !educationData.length && (
-        <Fragment>
-          <Box display="flex" justifyContent="center">
-            <Typography fontSize={14}>No record</Typography>
-          </Box>
-          <Divider />
-        </Fragment>
-      )}
+      <Paper
+        sx={{
+          width: "100%",
+          mb: 2,
+          paddingInline: 2,
+          paddingTop: 1,
+          boxShadow: 4,
+        }}
+      >
+        <EducationHeaderRow />
+        <Divider />
+        {!isOpenForm && !educationData.length && (
+          <Fragment>
+            <Box display="flex" justifyContent="center" paddingBlock={2}>
+              <Typography fontSize={14}>No record</Typography>
+            </Box>
+            <Divider />
+          </Fragment>
+        )}
 
-      {educationData?.map((education, index) => (
-        <Fragment>
-          <EducationDataRow
-            key={index}
-            education={education}
-            handleRemoveSingleRow={handleRemoveSingleRow}
-          />
-          <Divider />
-        </Fragment>
-      ))}
+        {educationData?.map((education, index) => (
+          <Fragment>
+            <EducationDataRow
+              key={index}
+              education={education}
+              handleRemoveSingleRow={handleRemoveSingleRow}
+              setEducationData={setEducationData}
+            />
+            <Divider />
+          </Fragment>
+        ))}
 
-      {isOpenForm && (
-        <Fragment>
-          <AddEducation
-            setEducationData={setEducationData}
-            handleToggleForm={handleToggleForm}
-          />
-          <Divider />
-        </Fragment>
-      )}
+        {isOpenForm && (
+          <Fragment>
+            <AddEducation
+              setEducationData={setEducationData}
+              handleToggleForm={handleToggleForm}
+            />
+            <Divider />
+          </Fragment>
+        )}
+      </Paper>
 
       <StepperFooterButton manualNext={manualNext} />
     </Stack>
